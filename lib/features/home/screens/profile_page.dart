@@ -40,13 +40,29 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
                   Text(user.name),
-                  Text(user.email),
+                  Row(
+                    children: [
+                      Text(user.email),
+                      Icon(
+                        user.emailVerified
+                            ? Icons.verified
+                            : Icons.not_interested,
+                        color: Palette.greyColor,
+                      )
+                    ],
+                  ),
                   Text(user.phone),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         ref.read(authControllerProvider.notifier).signOut();
-                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const HomePage(),));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ));
                       },
                       child: const Text('Sign Out'))
                 ],
