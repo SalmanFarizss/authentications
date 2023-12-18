@@ -25,8 +25,9 @@ class AuthRepository {
       return Either.right(UserModel(
           name: credential.user!.displayName ?? '',
           email: credential.user!.email ?? '',
+          emailVerified: credential.user!.emailVerified,
           phone: credential.user!.phoneNumber ?? '',
-          id: credential.user!.uid));
+          id: credential.user!.uid,));
     } on FirebaseException catch (e) {
       if(e.code.isNotEmpty){
         return left(Failure(failure:e.code));
@@ -44,6 +45,7 @@ class AuthRepository {
       return Either.right(UserModel(
           name: credential.user!.displayName ?? '',
           email: credential.user!.email ?? '',
+          emailVerified: credential.user!.emailVerified,
           phone: credential.user!.phoneNumber ?? '',
           id: credential.user!.uid));
     } on FirebaseException catch (e) {
