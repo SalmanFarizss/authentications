@@ -55,6 +55,33 @@ class ProfilePage extends ConsumerWidget {
                   const SizedBox(
                     height: 20,
                   ),
+                  if (!user.emailVerified)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              ref
+                                  .read(authControllerProvider.notifier)
+                                  .emailVerification(context);
+                            },
+                            child: const Text('Send verification email')),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              ref
+                                  .read(authControllerProvider.notifier)
+                                  .verify();
+                            },
+                            child: const Text('"Refresh" ')),
+                        const Text('If you verified your email')
+                      ],
+                    ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         ref.read(authControllerProvider.notifier).signOut();

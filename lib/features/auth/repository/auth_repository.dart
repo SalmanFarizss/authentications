@@ -22,7 +22,7 @@ class AuthRepository {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return Either.right(UserModel(
+      return right(UserModel(
           name: credential.user!.displayName ?? '',
           email: credential.user!.email ?? '',
           emailVerified: credential.user!.emailVerified,
@@ -42,7 +42,7 @@ class AuthRepository {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      return Either.right(UserModel(
+      return right(UserModel(
           name: credential.user!.displayName ?? '',
           email: credential.user!.email ?? '',
           emailVerified: credential.user!.emailVerified,
@@ -57,8 +57,25 @@ class AuthRepository {
       return left(Failure(failure: e.toString()));
     }
   }
+  FutureEither<String> emailVerification() async {
+    try {
+      await _auth.currentUser!.sendEmailVerification();
+      return right('Verification Email send to your email, Check your email');
+    } on FirebaseException catch (e) {
+      if(e.code.isNotEmpty){
+        return left(Failure(failure:e.code));
+      }
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(failure: e.toString()));
+    }
+  }
   ///signOut
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+  ///verified
+  Future<bool> verify()async{
+    return _auth.currentUser!.emailVerified;
   }
 }

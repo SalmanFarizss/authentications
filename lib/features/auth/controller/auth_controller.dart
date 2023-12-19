@@ -2,7 +2,6 @@ import 'package:authentications/core/providers/firebase_providers.dart';
 import 'package:authentications/features/auth/repository/auth_repository.dart';
 import 'package:authentications/features/home/screens/profile_page.dart';
 import 'package:authentications/models/user_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/utils.dart';
@@ -38,8 +37,20 @@ class AuthController extends Notifier<bool>{
       successSnackBar(context, 'Login successful');
     });
   }
+  Future<void> emailVerification(BuildContext context) async {
+    state=true;
+    var res=await _repository.emailVerification();
+    state=false;
+    res.fold((l) =>failureSnackBar(context,l.failure), (r) => successSnackBar(context, r));
+  }
   ///signOut
   Future<void> signOut() async {
     await _repository.signOut();
+  }
+  Future<void> verify()async{
+    state=true;
+    bool a=await _repository.verify();
+    state=false;
+    ref.read(userProvider.notifier).update((state) => state!.copyWith(emailVerified:a));
   }
   }
