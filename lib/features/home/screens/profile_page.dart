@@ -31,16 +31,22 @@ class ProfilePage extends ConsumerWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Palette.greyColor,
-                    child: Icon(
-                      Icons.person,
-                      color: Palette.whiteColor,
-                    ),
-                  ),
+                  user.profile.isNotEmpty
+                      ? CircleAvatar(
+                          radius: 40,
+                          backgroundImage: AssetImage(user.profile),
+                        )
+                      : const CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Palette.greyColor,
+                          child: Icon(
+                            Icons.person,
+                            color: Palette.whiteColor,
+                          ),
+                        ),
                   Text(user.name),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(user.email),
                       Icon(
@@ -56,7 +62,7 @@ class ProfilePage extends ConsumerWidget {
                     height: 20,
                   ),
                   if (!user.emailVerified)
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
@@ -67,16 +73,21 @@ class ProfilePage extends ConsumerWidget {
                             },
                             child: const Text('Send verification email')),
                         const SizedBox(
-                          width: 10,
+                          height: 20,
                         ),
-                        TextButton(
-                            onPressed: () {
-                              ref
-                                  .read(authControllerProvider.notifier)
-                                  .verify();
-                            },
-                            child: const Text('"Refresh" ')),
-                        const Text('If you verified your email')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  ref
+                                      .read(authControllerProvider.notifier)
+                                      .verify();
+                                },
+                                child: const Text('"Refresh"')),
+                            const Text('If you verified your email')
+                          ],
+                        )
                       ],
                     ),
                   const SizedBox(

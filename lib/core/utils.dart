@@ -1,4 +1,5 @@
 import 'package:authentications/core/theme/palette.dart';
+import 'package:authentications/features/home/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 void failureSnackBar(BuildContext context, String message) {
@@ -49,8 +50,26 @@ String? validatePassword(String? value) {
   if (!value.contains(RegExp(r'[0-9]'))) {
     return "Password must contain at least one numeric character";
   }
-  if (!value.contains(RegExp(r'[!@#\$%^&*()<>?/|}{~:]'))) {
+  if (!value.contains(RegExp(r'[!@#$%^&*()<>?/|}{~:]'))) {
     return "Password must contain at least one special character";
   }
   return null; // Password is valid.
+}
+
+showOtpDialog({required BuildContext context,required TextEditingController otp,required Function onPressed}){
+  showDialog(barrierDismissible: false,context: context, builder:(context) => AlertDialog(
+
+    title:const Text('Enter OTP'),
+    content:SizedBox(
+      height: height*0.1,
+      width: width*0.6,
+      child: TextFormField(controller: otp,decoration: const InputDecoration(labelText: 'OTP',hintText: 'Enter OTP here'),),
+    ),
+    actions: [
+      ElevatedButton(onPressed:() {
+        onPressed();
+      }, child: const Text('Submit'))
+    ],
+  ),
+  );
 }
